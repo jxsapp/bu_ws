@@ -1,0 +1,57 @@
+Web Service 元数据注释（JSR 181）
+ 
+@WebService
+   1、serviceName： 对外发布的服务名，指定 Web Service 的服务名称：wsdl:service。缺省值为 Java 类的简单名称 + Service。（字符串）
+   2、endpointInterface： 服务接口全路径, 指定做SEI（Service EndPoint Interface）服务端点接口
+   3、name：此属性的值包含XML Web Service的名称。在默认情况下，该值是实现XML Web Service的类的名称，wsdl:portType 的名称。缺省值为 Java 类或接口的非限定名称。（字符串
+   4、portName：  wsdl:portName。缺省值为 WebService.name+Port。
+   5、targetNamespace：指定你想要的名称空间，认是使用接口实现类的包名的反缀
+   6、wsdlLocation：指定用于定义 Web Service 的 WSDL 文档的 Web 地址。Web 地址可以是相对路径或绝对路径。（字符串）
+   注意：实现类上可以不添加Webservice注解  
+ 
+ 
+ 
+ 
+@WebMethod 
+   注释表示作为一项 Web Service 操作的方法，将此注释应用于客户机或服务器服务端点接口（SEI）上的方法，或者应用于 JavaBeans 端点的服务器端点实现类。
+   要点：
+       仅支持在使用 @WebService 注释来注释的类上使用 @WebMethod 注释
+ 
+ 1、operationName：指定与此方法相匹配的wsdl:operation 的名称。缺省值为 Java 方法的名称。（字符串）
+ 2、action：定义此操作的行为。对于 SOAP 绑定，此值将确定 SOAPAction 头的值。缺省值为 Java 方法的名称。（字符串）
+ 3、exclude：指定是否从 Web Service 中排除某一方法。缺省值为 false。（布尔值）  
+ 
+ 
+ 
+@Oneway 
+		注释将一个方法表示为只有输入消息而没有输出消息的 Web Service 单向操作。
+		将此注释应用于客户机或服务器服务端点接口（SEI）上的方法，或者应用于 JavaBeans 端点的服务器端点实现类  
+ 
+ 
+@WebParam 
+	注释用于定制从单个参数至 Web Service 消息部件和 XML 元素的映射。
+	将此注释应用于客户机或服务器服务端点接口（SEI）上的方法，或者应用于 JavaBeans 端点的服务器端点实现类。
+1、name ：参数的名称。如果操作是远程过程调用（RPC）类型并且未指定partName 属性，那么这是用于表示参数的 wsdl:part 属性的名称。
+					如果操作是文档类型或者参数映射至某个头，那么 -name 是用于表示该参数的 XML 元素的局部名称。如果操作是文档类型、
+					参数类型为 BARE 并且方式为 OUT 或 INOUT，那么必须指定此属性。（字符串）   
+2、partName：定义用于表示此参数的 wsdl:part属性的名称。仅当操作类型为 RPC 或者操作是文档类型并且参数类型为BARE 时才使用此参数。（字符串）
+3、targetNamespace：指定参数的 XML 元素的 XML 名称空间。当属性映射至 XML 元素时，仅应用于文档绑定。缺省值为 Web Service 的 targetNamespace。（字符串）
+4、mode：此值表示此方法的参数流的方向。有效值为 IN、INOUT 和 OUT。（字符串）
+5、header：指定参数是在消息头还是消息体中。缺省值为 false。（布尔值）
+ 
+ 
+ 
+@WebResult 
+   注释用于定制从返回值至 WSDL 部件或 XML 元素的映射。将此注释应用于客户机或服务器服务端点接口（SEI）上的方法，或者应用于 JavaBeans 端点的服务器端点实现类。
+ 
+		1、name：当返回值列示在 WSDL 文件中并且在连接上的消息中找到该返回值时，指定该返回值的名称。对于 RPC 绑定，这是用于表示返回值的 wsdl:part属性的名称。对于文档绑定，-name参数是用于表示返回值的 XML 元素的局部名。对于 RPC 和 DOCUMENT/WRAPPED 绑定，缺省值为 return。对于 DOCUMENT/BARE 绑定，缺省值为方法名 + Response。（字符串）
+		2、targetNamespace：指定返回值的 XML 名称空间。仅当操作类型为 RPC 或者操作是文档类型并且参数类型为 BARE 时才使用此参数。（字符串）
+		3、header：指定头中是否附带结果。缺省值为false。（布尔值）
+		4、partName：指定 RPC 或 DOCUMENT/BARE 操作的结果的部件名称。缺省值为@WebResult.name。（字符串）
+ 
+@HandlerChain 
+   注释用于使 Web Service 与外部定义的处理程序链相关联。只能通过对 SEI 或实现类使用 @HandlerChain 注释来配置服务器端的处理程序。
+		但是可以使用多种方法来配置客户端的处理程序。可以通过对生成的服务类或者 SEI 使用 @HandlerChain 注释来配置客户端的处理程序。此外，可以按程序在服务上注册您自己的 HandlerResolver 接口实现，或者按程序在绑定对象上设置处理程序链。
+		
+		 1、file：指定处理程序链文件所在的位置。文件位置可以是采用外部格式的绝对 java.net.URL，也可以是类文件中的相对路径。（字符串）
+		 2、name：指定配置文件中处理程序链的名称。
